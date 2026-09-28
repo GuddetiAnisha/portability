@@ -1,32 +1,43 @@
-from .analyzer import compatibility_score
+from analyzer import compatibility_score
+
 
 def make_report(original, result):
     lines = [
-        "# RTL Conversion Report",
+        "# Transformation Report",
         "",
-        f"- Source profile: `{result.source_profile}`",
-        f"- Target profile: `{result.target_profile}`",
-        f"- Detected mapped/vendor constructs: {len(result.findings)}",
+        f"- Source profile: {result.source_profile}",
+        f"- Target profile: {result.target_profile}",
+        f"- Detected source patterns: {len(result.findings)}",
         f"- Replacements performed: {result.replacements}",
-        f"- Source portability score (heuristic): {compatibility_score(original, result.source_profile)}/100",
+        f"- Source compatibility score (heuristic): {compatibility_score(original, result.source_profile)}/100",
         "",
         "## Findings",
     ]
+
     if result.findings:
-        for f in result.findings:
-            lines.append(f"- Line {f.line}: **{f.construct}** ({f.category}) — {f.message}")
+        for finding in result.findings:
+            lines.append(
+                f"- Line {finding.line}: {finding.construct} "
+                f"({finding.category}) - {finding.message}"
+            )
     else:
-        lines.append("- No known profile-specific constructs detected.")
+        lines.append("- No known profile-specific patterns detected.")
 
     lines += ["", "## Warnings"]
+
     if result.warnings:
-        lines += [f"- {w}" for w in result.warnings]
+        lines += [f"- {warning}" for warning in result.warnings]
     else:
-        lines.append("- No unsupported detected constructs in the included educational rule set.")
+        lines.append("- No unsupported detected patterns in the current rule set.")
 
     lines += [
         "",
         "## Important limitation",
-        "This report does not prove functional equivalence, synthesizability, timing closure, or place-and-route success."
+        (
+            "This report is based on configurable pattern rules. "
+            "It does not prove semantic equivalence for arbitrary "
+            "programming languages or configuration formats."
+        ),
     ]
-    return "\\n".join(lines)
+
+    return "\n".join(lines)
