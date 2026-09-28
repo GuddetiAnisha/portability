@@ -1,78 +1,45 @@
-# RTL Portability Lab
+# Software Portability & Transformation Platform
 
-A software-only Python prototype inspired by the general RTL portability problem in Ericsson Req ID 790480, but intentionally adapted into an independent project.
+A Python software project for analysing structured text, detecting configurable source patterns, applying rule-based transformations, and generating compatibility reports.
 
-## Changed scope
-
-Instead of promising a full ASIC↔FPGA implementation flow or place-and-route closure, this project focuses on the software engineering side:
-
-- parse and inspect Verilog/SystemVerilog source
-- detect vendor-specific primitives/IP patterns
-- convert recognized constructs through configurable mapping rules
-- target a portable generic RTL abstraction or another vendor profile
-- generate conversion reports and compatibility warnings
-- compare source/target constructs
-- provide a simple Streamlit GUI
-- verify transformations with automated tests
-
-It does **not** claim synthesis, place-and-route, timing closure, or physical FPGA/ASIC validation.
-
-## Profiles
-
-- generic
-- xilinx
-- intel
-- asic_generic
-
-The included rules are educational examples, not production vendor libraries.
+The repository is software-only and focuses on parsing, transformation rules, reporting, testing, and an interactive Streamlit interface.
 
 ## Features
 
-- Python conversion engine
-- Regex/token-aware rule matching for a constrained subset
-- JSON mapping database
-- Primitive/IP detection
-- Direction-aware conversion
+- Configurable pattern detection
+- JSON-based transformation rules
+- Source-to-source text transformation
 - Compatibility scoring
-- Unsupported-construct warnings
-- Diff preview
-- CLI
-- Streamlit GUI
-- Conversion report
-- Pytest tests
+- Unsupported-pattern warnings
+- Source-versus-transformed diff inspection
+- Command-line interface
+- Streamlit dashboard
+- Markdown report generation
+- Automated Pytest validation
 
-## Install
+## Profiles
 
-```bash
-python -m venv .venv
-# Windows
-.venv\Scripts\activate
-pip install -r requirements.txt
-```
+The demo rules use three generic software profiles: legacy, standard, and normalized.
 
-## GUI
+## Quick start
 
-```bash
-streamlit run gui.py
-```
+    python -m venv .venv
+    .venv\Scripts\activate
+    pip install -r requirements.txt
+    python main.py sample_legacy.txt --source legacy --target standard --output converted.txt
 
-## CLI
+Run the GUI with:
 
-```bash
-python main.py rtl_samples/xilinx_example.sv --source xilinx --target generic --output converted.sv
-```
+    streamlit run gui.py
 
-## Tests
+Run tests with:
 
-```bash
-pytest -q
-```
+    pytest -q
 
-## Good future extensions
+## Software focus
 
-- tree-sitter/SystemVerilog AST parser
-- Yosys integration for syntax/elaboration checks
-- richer primitive libraries
-- equivalence checking
-- vendor-tool adapters when licensed EDA tools are available
-- React/TypeScript GUI
+This project demonstrates Python automation, regular-expression based pattern analysis, structured JSON configuration, transformation pipelines, compatibility analysis, automated reporting, Streamlit interfaces, and reproducible testing.
+
+## Scope
+
+The repository does not contain RTL, SystemVerilog, FPGA/ASIC logic, hardware mapping, synthesis flows, or hardware-specific examples.
