@@ -1,0 +1,49 @@
+{
+  "rules": [
+    {
+      "name": "Legacy boolean yes",
+      "category": "boolean normalization",
+      "source_profile": "legacy",
+      "target_profile": "standard",
+      "detect_regex": "=yes\\b",
+      "replace_regex": "=yes\\b",
+      "replacement": "=true"
+    },
+    {
+      "name": "Legacy boolean no",
+      "category": "boolean normalization",
+      "source_profile": "legacy",
+      "target_profile": "standard",
+      "detect_regex": "=no\\b",
+      "replace_regex": "=no\\b",
+      "replacement": "=false"
+    },
+    {
+      "name": "Legacy timeout milliseconds",
+      "category": "unit normalization",
+      "source_profile": "legacy",
+      "target_profile": "standard",
+      "detect_regex": "^timeout_ms=([0-9]+)$",
+      "replace_regex": "^timeout_ms=([0-9]+)$",
+      "replacement": "timeout_seconds=\\g<1>"
+    },
+    {
+      "name": "Standard assignment",
+      "category": "format normalization",
+      "source_profile": "standard",
+      "target_profile": "normalized",
+      "detect_regex": "^[A-Za-z_][A-Za-z0-9_]*=",
+      "replace_regex": "^([A-Za-z_][A-Za-z0-9_]*)=(.*)$",
+      "replacement": "\\1: \\2"
+    },
+    {
+      "name": "Normalized assignment",
+      "category": "format normalization",
+      "source_profile": "normalized",
+      "target_profile": "standard",
+      "detect_regex": "^[A-Za-z_][A-Za-z0-9_]*:",
+      "replace_regex": "^([A-Za-z_][A-Za-z0-9_]*):[ ]*(.*)$",
+      "replacement": "\\1=\\2"
+    }
+  ]
+}
