@@ -1,0 +1,4 @@
+project_name=PlantDoctor
+enable_cache=yes
+log_level=DEBUG
+timeout_ms=5000
