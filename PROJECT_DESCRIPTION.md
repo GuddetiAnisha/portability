@@ -1,28 +1,37 @@
-# RTL Portability Lab — Project Description
+# Software Portability & Transformation Platform
 
 ## Goal
 
-Explore how software can improve RTL portability across implementation targets by detecting vendor-specific constructs and applying configurable transformation rules.
+Explore how configurable software rules can detect source-specific patterns, transform them into a target representation, and produce clear compatibility reports.
 
-## Deliberate changes from the thesis description
+## Architecture
 
-This is not a reproduction of Ericsson's internal thesis work. The prototype:
+Input text -> pattern analyzer -> rule engine -> transformed text -> compatibility/reporting layer -> GUI/CLI.
 
-- uses an independent educational mapping database;
-- focuses on static RTL analysis and source-to-source transformation;
-- introduces a neutral `generic` portability profile;
-- adds compatibility scoring, diff inspection, warnings, and reports;
-- uses a Streamlit GUI rather than vendor EDA GUIs;
-- does not perform synthesis, implementation, place-and-route, timing closure, or hardware validation.
+## Main components
 
-## Software architecture
+- Python pattern analyzer
+- JSON transformation-rule database
+- Source-to-source transformation engine
+- Compatibility scoring
+- Unsupported-pattern warnings
+- Unified diff generation
+- Markdown report generation
+- Streamlit interface
+- Pytest test suite
 
-RTL input → profile analyzer → primitive/IP detector → mapping-rule engine → converted RTL → compatibility/reporting layer → GUI/CLI.
+## Example use cases
+
+- configuration-file migration
+- naming-convention normalization
+- structured text modernization
+- rule-based compatibility checks
+- educational program-transformation experiments
 
 ## Technologies
 
-Python, regular expressions for a constrained educational RTL subset, JSON mapping rules, Streamlit, Pytest.
+Python, regular expressions, JSON, Streamlit, Pytest.
 
-## Important engineering limitation
+## Limitation
 
-Regex transformations are intentionally limited. A production-grade implementation should use a real Verilog/SystemVerilog parser or AST and formal/equivalence verification.
+The current implementation uses regular-expression based matching and is intended for controlled, well-defined transformation tasks. More complex programming-language transformations should use a parser or AST-based approach.
