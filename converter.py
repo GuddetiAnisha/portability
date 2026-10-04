@@ -14,12 +14,31 @@ def convert(text: str, source: str, target: str):
     rules = rules_for(source, target)
 
     for rule in rules:
-        new_text, count = re.subn(
-            rule["replace_regex"],
-            rule["replacement"],
-            transformed,
-            flags=re.MULTILINE,
-        )
+        # Semantic unit conversion: milliseconds -> seconds.
+        # A plain regex replacement would only rename the field and leave
+        # the numeric value unchanged (for example 5000 ms -> 5000 s),
+        # which is incorrect. Convert the captured value numerically.
+        if rule["name"] == "Legacy timeout milliseconds":
+
+            def convert_timeout(match):
+                milliseconds = float(match.group(1))
+                seconds = milliseconds / 1000
+                return f"timeout_seconds={seconds:g}"
+
+            new_text, count = re.subn(
+                rule["replace_regex"],
+                convert_timeout,
+                transformed,
+                flags=re.MULTILINE,
+            )
+        else:
+            new_text, count = re.subn(
+                rule["replace_regex"],
+                rule["replacement"],
+                transformed,
+                flags=re.MULTILINE,
+            )
+
         if count:
             replacements += count
             transformed = new_text
@@ -33,10 +52,10 @@ def convert(text: str, source: str, target: str):
         )
 
     header = (
-        f"# Software Portability & Transformation Platform\n"
+        "# Software Portability & Transformation Platform\n"
         f"# Source profile: {source}\n"
         f"# Target profile: {target}\n"
-        f"# Review transformed output before production use.\n\n"
+        "# Review transformed output before production use.\n\n"
     )
 
     return ConversionResult(
