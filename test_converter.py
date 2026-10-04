@@ -18,7 +18,12 @@ def test_legacy_to_standard_boolean():
 
 def test_legacy_timeout_to_standard():
     result = convert("timeout_ms=5000", "legacy", "standard")
-    assert "timeout_seconds=5000" in result.converted_text
+    assert "timeout_seconds=5" in result.converted_text
+
+
+def test_legacy_timeout_decimal_seconds():
+    result = convert("timeout_ms=2500", "legacy", "standard")
+    assert "timeout_seconds=2.5" in result.converted_text
 
 
 def test_standard_to_normalized_assignment():
